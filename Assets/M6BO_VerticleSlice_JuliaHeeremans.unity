@@ -507,6 +507,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1e59e32aaa0a8df4e800a7ec516a44dc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 02ecd71382a718f49be10866e7ee1d53, type: 2}
     - target: {fileID: 919132149155446097, guid: 1e59e32aaa0a8df4e800a7ec516a44dc, type: 3}
       propertyPath: m_Name
       value: M6BO_Stone_Tile_Normal (1)
