@@ -1,52 +1,116 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraFollow : MonoBehaviour
 {
     [Header("Target")]
     public Transform player;
 
     [Header("Follow Settings")]
-    public float followSpeed = 5f;       // Speed of camera catching up
-    public Vector3 offset = new Vector3(0, 10, -10);
-    public float lagDistance = 2f;       // How much the camera lags behind player movement
+    public float followSpeed = 5f;
+    public Vector3 offset = new Vector3(0, 5, -8);
+
+    [Header("Zoom Settings")]
+    public float zoomSpeed = 5f;
+    public float zoomedInFOV = 30f;     // Closest zoom
+    public float zoomedOutFOV = 70f;    // Farthest zoom
+    public float scrollSensitivity = 10f; // How fast scroll affects zoom
+
+    [Header("Rotation")]
+    public float rotationSpeed = 10f;
 
     [Header("Transparency Settings")]
     public LayerMask obstacleMask;
-    public Material transparentMaterial;  // assign your pre-made fade material here
+    public Material transparentMaterial;
 
+    private Camera cam;
+    private float targetFOV;
     private Dictionary<Renderer, Material[]> originalMaterials = new Dictionary<Renderer, Material[]>();
     private List<Renderer> currentObstacles = new List<Renderer>();
 
-    private Vector3 _cameraTargetPos;    // The lagging target point
-    private Vector3 _velocityRef = Vector3.zero;
-
     void Start()
     {
-        _cameraTargetPos = player.position;
+        cam = GetComponent<Camera>();
+        targetFOV = cam.fieldOfView;
     }
 
     void LateUpdate()
     {
         if (!player) return;
 
-        // --------- LAGGING TARGET POSITION ---------
-        // Move the target point towards the player's current position
-        _cameraTargetPos = Vector3.Lerp(_cameraTargetPos, player.position, followSpeed * Time.deltaTime);
-
-        // Apply offset
-        Vector3 desiredPos = _cameraTargetPos + offset;
-
-        // Smooth camera follows the lagging target
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPos, ref _velocityRef, 1f / followSpeed);
-
-        // Look at the lagging target (optional: can look at exact player position instead)
-        transform.LookAt(_cameraTargetPos);
-
-        // Handle objects blocking view
+        FollowPlayer();
+        RotateHorizontally();
+        HandleZoomInput();
+        ApplyZoom();
         HandleObstructions();
     }
 
+    // ---------------- FOLLOW PLAYER ----------------
+    void FollowPlayer()
+    {
+        Vector3 targetPos = player.position + offset;
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            targetPos,
+            followSpeed * Time.deltaTime
+        );
+    }
+
+    // ---------------- ROTATION ----------------
+    void RotateHorizontally()
+    {
+        Vector3 direction = player.position - transform.position;
+
+        if (direction.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRot,
+                rotationSpeed * Time.deltaTime
+            );
+        }
+    }
+
+    // ---------------- KEY + SCROLL ZOOM ----------------
+    void HandleZoomInput()
+    {
+            // Key-based zoom (still works)
+        /*if (Input.GetKey(KeyCode.S))
+            targetFOV = zoomedInFOV;*/
+
+        /*if (Input.GetKey(KeyCode.A))
+            targetFOV = zoomedOutFOV;*/
+
+        // Scroll wheel zoom
+
+    float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scroll < 0f)
+            {
+                // Scroll up → zoom OUT
+                targetFOV = zoomedOutFOV;
+            }
+
+            else if (scroll > 0f)
+        {
+            // Scroll down → zoom IN
+            targetFOV = zoomedInFOV;
+        }
+    }
+
+        void ApplyZoom()
+    {
+        cam.fieldOfView = Mathf.Lerp(
+            cam.fieldOfView,
+            targetFOV,
+            zoomSpeed * Time.deltaTime
+        );
+    }
+
+    // ---------------- OBSTRUCTION HANDLING ----------------
     void HandleObstructions()
     {
         Vector3 dir = player.position - transform.position;
@@ -97,3 +161,4 @@ public class CameraFollow : MonoBehaviour
         }
     }
 }
+
