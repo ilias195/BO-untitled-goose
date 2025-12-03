@@ -232,6 +232,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: M6BO_Kraan_grijs_rood_JuliaHeeremans
       objectReference: {fileID: 0}
+    - target: {fileID: 4794359277020290572, guid: 4a53a10c419b8c741a2a677deb1aa62e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a99d39c52318a9f45ac0226e4b03c1f1, type: 2}
+    - target: {fileID: 7202271454713460447, guid: 4a53a10c419b8c741a2a677deb1aa62e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a99d39c52318a9f45ac0226e4b03c1f1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -288,7 +296,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a0b43dcf2d1368f43ac98d0662f4cae9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: d311b0aab6f250949b1f2dad09c2c006, type: 2}
+      objectReference: {fileID: 2100000, guid: c10e25e2cfcdf0746bd74f66b91642d5, type: 2}
     - target: {fileID: 919132149155446097, guid: a0b43dcf2d1368f43ac98d0662f4cae9, type: 3}
       propertyPath: m_Name
       value: M6BO_Platform_Hout_Ton_JuliaHeeremans
