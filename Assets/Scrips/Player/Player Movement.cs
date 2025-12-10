@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
@@ -17,53 +18,85 @@ public class PlayerMovement : MonoBehaviour
     private float _currentSpeed;
     private Rigidbody _rb;
 
+    private Vector3 targetPoint;
+    private bool hasTarget = false;
+
+    private float lastClickTime = 0f;
+    private readonly float doubleClickThreshold = 0.25f;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.freezeRotation = true; // prevent tipping over
+        _rb.freezeRotation = true;
         _currentSpeed = _walkingSpeed;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // Movement input
-        Vector3 inputDirection = Vector3.zero;
+        HandleMouseInput();
+        HandleSpeedModes();
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            inputDirection += _playerTransform.forward;
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-            inputDirection -= _playerTransform.forward;
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-            inputDirection -= _playerTransform.right;
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-            inputDirection += _playerTransform.right;
+        Debug.Log("Current Speed = " + _currentSpeed);
+    }
 
-        // Determine current speed (CROUCH → WALK → RUN priority)
+    void HandleMouseInput()
+    {
+        // Double-click detection
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Time.time - lastClickTime <= doubleClickThreshold)
+            {
+                _currentSpeed = _runningSpeed; // run on double click
+            }
+
+            lastClickTime = Time.time;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (Time.time - lastClickTime >= doubleClickThreshold)
+            {
+                _currentSpeed = _walkingSpeed; 
+            }
+
+            lastClickTime = Time.time;
+        }
+    }
+
+    void HandleSpeedModes()
+    {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.C))
         {
             _currentSpeed = _crouchingSpeed;
         }
-        else if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)))
+        else if (Input.GetMouseButton(0))
         {
-            _currentSpeed = _runningSpeed;
+            if (_currentSpeed != _runningSpeed)
+                _currentSpeed = _walkingSpeed; // walk while holding
         }
-        else
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 inputDirection = Vector3.zero;
+
+        // If holding left click → move forward
+        if (Input.GetMouseButton(0))
         {
-            _currentSpeed = _walkingSpeed;
+            inputDirection = transform.forward;
         }
 
-        // Apply movement / acceleration
+        // Acceleration / friction handling
         if (inputDirection != Vector3.zero)
         {
             _velocity = Vector3.MoveTowards(
                 _velocity,
-                inputDirection.normalized * _currentSpeed,
+                inputDirection * _currentSpeed,
                 _acceleration * Time.fixedDeltaTime
             );
         }
         else
         {
-            // Apply friction when no movement input
             _velocity = Vector3.MoveTowards(
                 _velocity,
                 Vector3.zero,
@@ -71,7 +104,6 @@ public class PlayerMovement : MonoBehaviour
             );
         }
 
-        // Move player using Rigidbody
         _rb.MovePosition(_rb.position + _velocity * Time.fixedDeltaTime);
     }
 }
