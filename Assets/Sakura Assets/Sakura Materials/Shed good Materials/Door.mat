@@ -116,7 +116,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HasRimLighting: 1
+    - _HasRimLighting: 0
     - _HighlightSmoothstep: 0.981
     - _Metallic: 0
     - _OcclusionStrength: 1
