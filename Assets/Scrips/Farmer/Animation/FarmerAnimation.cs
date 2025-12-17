@@ -10,7 +10,7 @@ public class FarmerAnimation : MonoBehaviour
     {
         if (_agent != null && animator != null)
         {
-            // Update animator snelheid
+           
             float speed = _agent.velocity.magnitude;
             animator.SetFloat("Speed", speed);
         }
