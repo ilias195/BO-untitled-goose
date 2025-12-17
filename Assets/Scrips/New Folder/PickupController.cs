@@ -5,11 +5,21 @@ public class ObjectPickup : MonoBehaviour
 {
     public Transform holdPosition;
     private GameObject objectInHand = null;
+    private Transform speler;
+    public Rigidbody rb; 
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void FixedUpdate()
+    {
+        rb.MoveRotation(speler.rotation);
+    }
 
     void Update()
     {
-
-        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (objectInHand == null)
@@ -41,7 +51,6 @@ public class ObjectPickup : MonoBehaviour
         }
     }
 
-
     void Drop()
     {
         if (objectInHand != null)
@@ -54,6 +63,5 @@ public class ObjectPickup : MonoBehaviour
             objectInHand = null;
         }
     }
-
 }
 
