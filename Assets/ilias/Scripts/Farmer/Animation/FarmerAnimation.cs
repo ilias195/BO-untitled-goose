@@ -12,7 +12,11 @@ public class FarmerAnimation : MonoBehaviour
         {
            
             float speed = _agent.velocity.magnitude;
-            animator.SetFloat("Speed", speed);
+            animator.SetBool("Speed", true);
+        }
+        else
+        {
+            animator.SetBool("Speed",false);
         }
     }
 }
