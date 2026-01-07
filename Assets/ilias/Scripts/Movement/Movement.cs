@@ -7,6 +7,9 @@ public class Movement : MonoBehaviour
     private Transform target;
      private int wavePointIndex = 0;
 
+    private FarmerTaskBase currentTask;
+    private bool isWorking = false;
+
     private void Start()
     {
         if (WayPoints.points == null || WayPoints.points.Length == 0) //checken of mijn waypint bestaat
@@ -19,17 +22,52 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 direction = target.position - transform.position; //als je van A naar B wilt gaan.
-        transform.Translate(direction.normalized *_speed * Time.deltaTime,Space.World);
 
+        if (isWorking)
+            return;
 
-        if(Vector3.Distance(transform.position, target.position) <= 0.4f)
+        Vector3 direction = target.position - transform.position;
+        transform.Translate(direction.normalized * _speed * Time.deltaTime, Space.World);
+
+        if (Vector3.Distance(transform.position, target.position) <= 0.4f)
         {
-            GetNextWayPoint();
+            StartTaskWayPoint();
         }
     }
 
-     void GetNextWayPoint()
+    void StartTaskWayPoint()
+    {
+        WaypointTask waypointTask = target.GetComponent<WaypointTask>();//
+
+        //als er geen task is ga naar de volgende Task point en kijk opnieuw;
+        if (waypointTask == null || waypointTask.taskType == FarmerTask.None)
+        {
+            GetNextWayPoint();
+            return;
+        }
+
+        if (waypointTask.taskType == FarmerTask.Watering)
+        {
+            currentTask = new WateringTask();
+        }
+        else if (waypointTask.taskType == FarmerTask.Rake)
+        {
+            currentTask = new RakeTask();
+        }
+
+        isWorking = true; // farmer niet lopen
+        Invoke(nameof(FinishTask), 2f); // zegt roep FinishTask op na 2sec is de taak klaar
+    }
+
+    void FinishTask()//taak klaar volgende WayPoint
+    {
+        isWorking = false;
+        currentTask = null;
+
+        GetNextWayPoint();
+    }
+
+    void GetNextWayPoint()
     {
         wavePointIndex++;
 
