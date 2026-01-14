@@ -12,7 +12,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        if (WayPoints.points == null || WayPoints.points.Length == 0) //checken of mijn waypint bestaat
+        if (WayPoints.points == null || WayPoints.points.Length == 0) //checken of mijn waypoint bestaat
         {
             Debug.Log("no waypoints found");
                 return;

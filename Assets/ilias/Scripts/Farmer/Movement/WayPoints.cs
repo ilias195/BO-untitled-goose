@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WayPoints : MonoBehaviour
+public class WayPoints : MonoBehaviour 
 {
     public static Transform[] points;
 
