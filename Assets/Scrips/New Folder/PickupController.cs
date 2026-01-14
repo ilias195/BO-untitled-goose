@@ -8,9 +8,11 @@ public class ObjectPickup : MonoBehaviour
     private Transform speler;
     public Rigidbody rb; 
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        speler = transform;
     }
 
     void FixedUpdate()
@@ -20,6 +22,7 @@ public class ObjectPickup : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (objectInHand == null)
