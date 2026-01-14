@@ -11883,7 +11883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd77dc83cec30764184998e1dd57c8dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.37990093
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bd77dc83cec30764184998e1dd57c8dd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11917,10 +11917,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -329321415725803970, guid: bd77dc83cec30764184998e1dd57c8dd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e30cc2d0c5289a42b489e916a66f3b4, type: 2}
     - target: {fileID: 919132149155446097, guid: bd77dc83cec30764184998e1dd57c8dd, type: 3}
       propertyPath: m_Name
       value: M6BO_Groot_Schep_Julia
       objectReference: {fileID: 0}
+    - target: {fileID: 6256399565282731935, guid: bd77dc83cec30764184998e1dd57c8dd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e30cc2d0c5289a42b489e916a66f3b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
