@@ -9,42 +9,23 @@ public class FarmerAnimation : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
-    // lopen
-    public void PlayWalk()
+    public void SetMoving(bool moving)
     {
-        animator.SetBool("IsWalking", true);
+        animator.SetBool("IsMoving", moving);
     }
 
-    public void StopWalk()
-    {
-        animator.SetBool("IsWalking", false);
-    }
-
-    // taak animaties
     public void PlayTaskAnimation(FarmerTask task)
     {
-        Reset();
-
-        Debug.Log("PlayTaskAnimation: " + task);
-
-        animator.SetBool("IsWalking", false);
+        animator.SetBool("IsMoving", false);
         animator.SetBool("IsWorking", true);
 
-        if (task == FarmerTask.Watering)
-         animator.SetBool("IsWatering", true);
-
-        else if (task == FarmerTask.Rake)
-         animator.SetBool("IsRaking", true);
+        animator.SetBool("IsWatering", task == FarmerTask.Watering);
+        animator.SetBool("IsRaking", task == FarmerTask.Rake);
     }
 
     public void StopTaskAnimation()
     {
-        Reset();
         animator.SetBool("IsWorking", false);
-    }
-
-    void Reset()
-    {
         animator.SetBool("IsWatering", false);
         animator.SetBool("IsRaking", false);
     }

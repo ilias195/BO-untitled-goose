@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -11,42 +12,66 @@ public class Movement : MonoBehaviour
     private bool isWorking = false;
 
     private FarmerAnimation farmerAnimation;
+    private Vector3 lastPosition;
+
+
 
     private void Start()
-    {
+        {
         farmerAnimation = GetComponent<FarmerAnimation>();
 
         if (farmerAnimation == null)
         {
-            Debug.LogError("FarmerAnimation NOT found on Farmer!");
+            Debug.LogError("FarmerAnimation NOT found on this object!");
         }
 
         if (WayPoints.points == null || WayPoints.points.Length == 0)
-        {
-            Debug.LogError("No waypoints found");
             return;
-        }
 
         target = WayPoints.points[wavePointIndex];
+        lastPosition = transform.position;
+
     }
+
 
 
     private void Update()
     {
-        if (isWorking || farmerAnimation == null || target == null)
+        if (isWorking)
+        {
+            farmerAnimation.SetMoving(false);
             return;
-
-        farmerAnimation.PlayWalk();
+        }
 
         Vector3 direction = target.position - transform.position;
-        transform.Translate(direction.normalized * _speed * Time.deltaTime, Space.World);
 
-        if (Vector3.Distance(transform.position, target.position) <= 0.4f)
+        // Zolang we niet bij het waypoint zijn  lopen
+        if (direction.magnitude > 0.4f)
         {
-            farmerAnimation.StopWalk();
+            farmerAnimation.SetMoving(true);
+
+            transform.Translate(direction.normalized * _speed * Time.deltaTime, Space.World);
+
+            // draaien
+            direction.y = 0;
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    8f * Time.deltaTime
+                );
+            }
+        }
+        else
+        {
+            farmerAnimation.SetMoving(false);
             StartTaskWayPoint();
         }
     }
+
+
 
     void StartTaskWayPoint()
     {
