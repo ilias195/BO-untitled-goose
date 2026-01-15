@@ -6,7 +6,7 @@ public class FarmerAnimation : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // lopen
@@ -24,6 +24,8 @@ public class FarmerAnimation : MonoBehaviour
     public void PlayTaskAnimation(FarmerTask task)
     {
         Reset();
+
+        Debug.Log("PlayTaskAnimation: " + task);
 
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsWorking", true);
