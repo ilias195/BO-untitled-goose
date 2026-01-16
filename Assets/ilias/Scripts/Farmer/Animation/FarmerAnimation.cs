@@ -19,14 +19,14 @@ public class FarmerAnimation : MonoBehaviour
         animator.SetBool("IsMoving", false);
         animator.SetBool("IsWorking", true);
 
-        animator.SetBool("IsWatering", task == FarmerTask.Watering);
         animator.SetBool("IsRaking", task == FarmerTask.Rake);
+        animator.SetBool("IsDigging", task == FarmerTask.Digging);
     }
 
     public void StopTaskAnimation()
     {
         animator.SetBool("IsWorking", false);
-        animator.SetBool("IsWatering", false);
         animator.SetBool("IsRaking", false);
+        animator.SetBool("IsDigging", false);
     }
 }

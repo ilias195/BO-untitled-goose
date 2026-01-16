@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class WateringTask : FarmerTaskBase
+public class DiggingTask : FarmerTaskBase
 {
     public override FarmerTask TaskType
     {
         get
         {
-            return FarmerTask.Watering;
+            return FarmerTask.Digging;
         }
     }
 }

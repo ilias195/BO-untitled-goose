@@ -84,9 +84,9 @@ public class Movement : MonoBehaviour
             return;
         }
 
-        if (waypointTask.taskType == FarmerTask.Watering)
+        if (waypointTask.taskType == FarmerTask.Digging)
         {
-            currentTask = new WateringTask();
+            currentTask = new DiggingTask();
         }
         else if (waypointTask.taskType == FarmerTask.Rake)
         {

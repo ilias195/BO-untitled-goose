@@ -8,7 +8,7 @@ public abstract class FarmerTaskBase
 public enum FarmerTask
 {
     None = 0,
-    Watering,//geeft water
+    Digging,//geeft water
     Rake//Harken
    
 }
