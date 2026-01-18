@@ -13050,6 +13050,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e59e32aaa0a8df4e800a7ec516a44dc, type: 3}
+--- !u!1001 &2047231094
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 88.833244
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 80.353874
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 85.269
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.41
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1655
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -48.88
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6951984aa11361f4db89d6ff255dd6fb, type: 2}
+    - target: {fileID: 919132149155446097, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
+      propertyPath: m_Name
+      value: M6BO_Tile_Groot_Steen_Julia
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5c84af01f0c287b4b846458d5b253696, type: 3}
 --- !u!1 &2058918891
 GameObject:
   m_ObjectHideFlags: 0
@@ -13959,3 +14032,4 @@ SceneRoots:
   - {fileID: 1826857683}
   - {fileID: 1725490870}
   - {fileID: 73780673}
+  - {fileID: 2047231094}
