@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [SerializeField] private WayPoints wayPoints;
+
     [SerializeField] private float _speed = 1f;
 
     private Transform target;
@@ -25,11 +27,13 @@ public class Movement : MonoBehaviour
             Debug.LogError("FarmerAnimation NOT found on this object!");
         }
 
-        if (WayPoints.points == null || WayPoints.points.Length == 0)
+        if (wayPoints == null || wayPoints.Points.Count == 0)
+        {
+            Debug.LogError("No WayPoints assigned!");
             return;
+        }
 
-        target = WayPoints.points[wavePointIndex];
-        lastPosition = transform.position;
+        target = wayPoints.Points[wavePointIndex];
 
     }
 
@@ -97,7 +101,7 @@ public class Movement : MonoBehaviour
 
 
         isWorking = true; // farmer niet lopen
-        Invoke(nameof(FinishTask), 2f); // zegt roep FinishTask op na 2sec is de taak klaar
+        Invoke(nameof(FinishTask), 5f); // zegt roep FinishTask op na 2sec is de taak klaar
     }
 
     void FinishTask()//taak klaar volgende WayPoint
@@ -114,12 +118,12 @@ public class Movement : MonoBehaviour
     {
         wavePointIndex++;
 
-        if (wavePointIndex >= WayPoints.points.Length)
+        if (wavePointIndex >= wayPoints.Points.Count)
         {
             wavePointIndex = 0;
         }
 
-        target = WayPoints.points[wavePointIndex];
+        target = wayPoints.Points[wavePointIndex];
     }
 
 }
