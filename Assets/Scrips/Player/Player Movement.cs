@@ -5,17 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float _runningSpeed = 12f;
-    [SerializeField] private float _walkingSpeed = 6f;
-    [SerializeField] private float _crouchingSpeed = 3f;
-
-    [SerializeField] private float _acceleration = 3f;
-    [SerializeField] private float _friction = 3f;
+    [SerializeField] private float _acceleration = 4f;
+    [SerializeField] private float _friction = 12f;
 
     [SerializeField] private Transform _playerTransform;
 
     private Vector3 _velocity;
+
     private float _currentSpeed;
+
     private Rigidbody _rb;
 
     private Vector3 targetPoint;
@@ -28,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
-        _currentSpeed = _walkingSpeed;
+        _currentSpeed = 0f;
     }
 
     void Update()
@@ -37,6 +35,23 @@ public class PlayerMovement : MonoBehaviour
         HandleSpeedModes();
 
         Debug.Log("Current Speed = " + _currentSpeed);
+
+        if (_currentSpeed == 3f)
+        {
+            GooseAnimations.PlayWalkingAnimation();
+        }
+        else if (_currentSpeed == 6f)
+        {
+            GooseAnimations.PlayRunAnimation();
+        }
+        else if(_currentSpeed == 1f)
+        {
+            GooseAnimations.PlayCrouchingAnimation();
+        }
+        else if (_currentSpeed == 0f)
+        {
+            GooseAnimations.PlayIdleAnimation();
+        }
     }
 
     void HandleMouseInput()
@@ -46,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Time.time - lastClickTime <= doubleClickThreshold)
             {
-                _currentSpeed = _runningSpeed; // run on double click
+                _currentSpeed = 6f; // run on double click
             }
 
             lastClickTime = Time.time;
@@ -56,10 +71,15 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Time.time - lastClickTime >= doubleClickThreshold)
             {
-                _currentSpeed = _walkingSpeed; 
+                _currentSpeed = 3f;
             }
 
             lastClickTime = Time.time;
+        }
+
+        if(lastClickTime >= doubleClickThreshold && Input.GetMouseButtonUp(0))
+        {
+            _currentSpeed = 0f;
         }
     }
 
@@ -67,12 +87,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.C))
         {
-            _currentSpeed = _crouchingSpeed;
+            _currentSpeed = 1f;
         }
         else if (Input.GetMouseButton(0))
         {
-            if (_currentSpeed != _runningSpeed)
-                _currentSpeed = _walkingSpeed; // walk while holding
+            if (_currentSpeed != 6f)
+                _currentSpeed = 3f; // walk while holding
         }
     }
 
@@ -107,3 +127,5 @@ public class PlayerMovement : MonoBehaviour
         _rb.MovePosition(_rb.position + _velocity * Time.fixedDeltaTime);
     }
 }
+
+    
