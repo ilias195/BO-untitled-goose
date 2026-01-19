@@ -64,7 +64,7 @@ public class Movement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     targetRotation,
-                    8f * Time.deltaTime
+                    5f * Time.deltaTime
                 );
             }
         }
