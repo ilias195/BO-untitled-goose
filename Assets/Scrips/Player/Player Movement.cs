@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float _acceleration = 4f;
-    [SerializeField] private float _friction = 12f;
+    [SerializeField] private float _acceleration = 6f;
+    [SerializeField] private float _friction = 0.5f;
 
     [SerializeField] private Transform _playerTransform;
 
