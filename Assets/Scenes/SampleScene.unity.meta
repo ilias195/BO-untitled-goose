@@ -1,6 +1,16 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/Scenes/SampleScene.unity.meta
 guid: 81e63179c7b98194982a5c860e742990
 DefaultImporter:
+========
+guid: 987da863dbe02fb4b9dcc2d036439897
+PrefabImporter:
+>>>>>>>> ilias:Assets/Yasmine_Folder/prefhabs/Goose_groundkeeper.prefab.meta
+=======
+guid: 99c9720ab356a0642a771bea13969a05
+DefaultImporter:
+>>>>>>> ilias
   externalObjects: {}
   userData: 
   assetBundleName: 

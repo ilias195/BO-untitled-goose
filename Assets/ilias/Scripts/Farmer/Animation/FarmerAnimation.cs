@@ -1,22 +1,32 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class FarmerAnimation : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private NavMeshAgent _agent;
+    private Animator animator;
 
-    void Update()
+    private void Awake()
     {
-        if (_agent != null && animator != null)
-        {
-           
-            float speed = _agent.velocity.magnitude;
-            animator.SetBool("Speed", true);
-        }
-        else
-        {
-            animator.SetBool("Speed",false);
-        }
+        animator = GetComponentInChildren<Animator>();
+    }
+
+    public void SetMoving(bool moving)
+    {
+        animator.SetBool("IsMoving", moving);
+    }
+
+    public void PlayTaskAnimation(FarmerTask task)
+    {
+        animator.SetBool("IsMoving", false);
+        animator.SetBool("IsWorking", true);
+
+        animator.SetBool("IsRaking", task == FarmerTask.Rake);
+        animator.SetBool("IsDigging", task == FarmerTask.Digging);
+    }
+
+    public void StopTaskAnimation()
+    {
+        animator.SetBool("IsWorking", false);
+        animator.SetBool("IsRaking", false);
+        animator.SetBool("IsDigging", false);
     }
 }
