@@ -2335,6 +2335,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 831937787899117441, guid: 4a53a10c419b8c741a2a677deb1aa62e, type: 3}
+      propertyPath: m_TagString
+      value: POI
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4a53a10c419b8c741a2a677deb1aa62e, type: 3}
       propertyPath: m_Name
       value: M6BO_Kraan_grijs_rood_JuliaHeeremans
@@ -3127,7 +3131,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 10
   orthographic: 0
@@ -3223,15 +3227,15 @@ MonoBehaviour:
   baseOffset: {x: 0, y: 8, z: -12}
   movementRadius: 4
   forwardMovementFactor: 0.5
-  minDistance: 50
-  maxDistance: 90
-  baseZoomDistance: 50
+  minDistance: 30
+  maxDistance: 45
+  baseZoomDistance: 35
   scrollSensitivity: 80
   zoomSmooth: 2.2
   poiTag: POI
-  poiRadius: 12
-  poiMaxOffset: 3
-  verticalScreenMargin: 0.25
+  poiRadius: 11.2
+  poiMaxOffset: 2.6
+  verticalScreenMargin: 0.45
   cameraAngle: 32
   obstacleMask:
     serializedVersion: 2

@@ -90,7 +90,7 @@ public class CameraFollow : MonoBehaviour
         currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * zoomSmooth);
 
         // Smoothly return zoomOffsetFromPOI to zero when POI is not influencing
-        zoomOffsetFromPOI = Mathf.Lerp(zoomOffsetFromPOI, 0f, Time.deltaTime * 2f);
+        zoomOffsetFromPOI = Mathf.Lerp(zoomOffsetFromPOI, 2.1f, Time.deltaTime * 2f);
     }
 
     void FollowPlayer()
