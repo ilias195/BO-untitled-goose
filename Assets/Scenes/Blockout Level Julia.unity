@@ -9394,9 +9394,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPosition: {fileID: 163326372}
-  rb: {fileID: 0}
-  holdDistance: 2.4
-  holdHeight: 1.2
+  rb: {fileID: 1240014785}
+  holdDistance: 1
+  holdHeight: 1
 --- !u!114 &1240014783
 MonoBehaviour:
   m_ObjectHideFlags: 0
