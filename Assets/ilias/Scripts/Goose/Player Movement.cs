@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GooseAnimations.PlayWalkingAnimation();
         }
-        else if (_currentSpeed == 6f)
+        else if (_currentSpeed == 4.1f)
         {
             GooseAnimations.PlayRunAnimation();
         }
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Time.time - lastClickTime <= doubleClickThreshold)
             {
-                _currentSpeed = 6f; // run on double click
+                _currentSpeed = 4.1f; // run on double click
             }
 
             lastClickTime = Time.time;
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            if (_currentSpeed != 6f)
+            if (_currentSpeed != 4.1f)
                 _currentSpeed = 3f; // walk while holding
         }
     }
