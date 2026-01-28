@@ -9,25 +9,29 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Follow Settings")]
     public float followSpeed = 5f;
-    public Vector3 baseOffset = new Vector3(0, 8, -12); // Base perspective
-    public float movementRadius = 4f; // Max horizontal shift around player
-    public float forwardMovementFactor = 0.5f; // How much camera shifts forward with player movement
+    public Vector3 baseOffset = new Vector3(0, 8, -12);
+    public float movementRadius = 4f;
+    public float forwardMovementFactor = 0.5f;
 
     [Header("Zoom Settings")]
     public float minDistance = 5f;
     public float maxDistance = 15f;
-    public float baseZoomDistance = 12f; // Default zoom when no POI influence
+    public float baseZoomDistance = 12f;
     public float scrollSensitivity = 5f;
     public float zoomSmooth = 5f;
 
     [Header("POI Settings")]
     public string poiTag = "POI";
-    public float poiRadius = 12f;       // Influence radius
-    public float poiMaxOffset = 3f;     // Max horizontal shift
-    public float verticalScreenMargin = 0.25f; // Top/bottom margin
+    public float poiRadius = 12f;
+    public float poiMaxOffset = 3f;
+    public float verticalScreenMargin = 0.25f;
+
+    [Header("Camera Orientation")]
+    [Tooltip("Rotation around the player (0 = behind, 90 = right side, -90 = left side)")]
+    public float cameraYaw = 0f;
 
     [Header("Camera Angle")]
-    public float cameraAngle = 30f; // Degrees downward from horizontal
+    public float cameraAngle = 30f;
 
     [Header("Transparency Settings")]
     public LayerMask obstacleMask;
@@ -36,9 +40,9 @@ public class CameraFollow : MonoBehaviour
     private Camera cam;
     private float targetDistance;
     private float currentDistance;
-    private float zoomOffsetFromPOI; // temporary zoom due to POI
-    private Vector3 dynamicOffset;   // Horizontal offset (POI + movement)
-    private Vector3 movementOffset;  // Forward shift with player movement
+    private float zoomOffsetFromPOI;
+    private Vector3 dynamicOffset;
+    private Vector3 movementOffset;
 
     private Dictionary<Renderer, Material[]> originalMaterials = new Dictionary<Renderer, Material[]>();
     private List<Renderer> currentObstacles = new List<Renderer>();
@@ -48,6 +52,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
+
         currentDistance = targetDistance = baseZoomDistance;
         zoomOffsetFromPOI = 0f;
         dynamicOffset = Vector3.zero;
@@ -55,14 +60,14 @@ public class CameraFollow : MonoBehaviour
 
         previousPlayerPos = player.position;
 
-        // Set the fixed camera angle from above
-        float rad = Mathf.Deg2Rad * cameraAngle;
-        transform.rotation = Quaternion.LookRotation(new Vector3(0, -Mathf.Sin(rad), Mathf.Cos(rad)));
+        ApplyCameraRotation();
     }
 
     void LateUpdate()
     {
         if (!player) return;
+
+        ApplyCameraRotation();
 
         HandleZoomInput();
         HandlePOIInfluence();
@@ -72,6 +77,13 @@ public class CameraFollow : MonoBehaviour
         HandleObstructions();
 
         previousPlayerPos = player.position;
+    }
+
+    void ApplyCameraRotation()
+    {
+        Quaternion yaw = Quaternion.Euler(0f, cameraYaw, 0f);
+        Quaternion pitch = Quaternion.Euler(cameraAngle, 0f, 0f);
+        transform.rotation = yaw * pitch;
     }
 
     void HandleZoomInput()
@@ -88,15 +100,16 @@ public class CameraFollow : MonoBehaviour
     {
         targetDistance = baseZoomDistance + zoomOffsetFromPOI;
         currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * zoomSmooth);
-
-        // Smoothly return zoomOffsetFromPOI to zero when POI is not influencing
         zoomOffsetFromPOI = Mathf.Lerp(zoomOffsetFromPOI, 0f, Time.deltaTime * 2f);
     }
 
     void FollowPlayer()
     {
+        Quaternion yaw = Quaternion.Euler(0f, cameraYaw, 0f);
+        Vector3 rotatedOffset = yaw * baseOffset.normalized * currentDistance;
+
         Vector3 desiredPos = player.position
-                             + baseOffset.normalized * currentDistance
+                             + rotatedOffset
                              + dynamicOffset
                              + movementOffset;
 
@@ -120,7 +133,6 @@ public class CameraFollow : MonoBehaviour
 
             float weight = 1f - (distance / poiRadius);
 
-            // Horizontal offset in camera local space
             Vector3 localDir = transform.InverseTransformDirection(flatDir);
             localDir.y = 0f;
             Vector3 worldOffset = transform.TransformDirection(localDir.normalized) * poiMaxOffset * weight;
@@ -128,7 +140,6 @@ public class CameraFollow : MonoBehaviour
             totalOffset += worldOffset;
             totalWeight += weight;
 
-            // Vertical check for zoom
             Vector3 screenPos = cam.WorldToViewportPoint(poiObj.transform.position);
             if (screenPos.y < verticalScreenMargin)
                 zoomAdjustment = Mathf.Max(zoomAdjustment, verticalScreenMargin - screenPos.y);
@@ -149,7 +160,11 @@ public class CameraFollow : MonoBehaviour
 
         if (zoomAdjustment > 0f)
         {
-            zoomOffsetFromPOI = Mathf.Clamp(zoomOffsetFromPOI + zoomAdjustment * 10f, 0f, maxDistance - baseZoomDistance);
+            zoomOffsetFromPOI = Mathf.Clamp(
+                zoomOffsetFromPOI + zoomAdjustment * 10f,
+                0f,
+                maxDistance - baseZoomDistance
+            );
         }
     }
 
@@ -163,7 +178,11 @@ public class CameraFollow : MonoBehaviour
             Vector3 localOffset = transform.InverseTransformDirection(flatDir) * forwardMovementFactor;
             localOffset.y = 0f;
 
-            movementOffset = Vector3.Lerp(movementOffset, transform.TransformDirection(localOffset), Time.deltaTime * 3f);
+            movementOffset = Vector3.Lerp(
+                movementOffset,
+                transform.TransformDirection(localOffset),
+                Time.deltaTime * 3f
+            );
         }
         else
         {
@@ -183,7 +202,9 @@ public class CameraFollow : MonoBehaviour
         {
             Renderer r = hit.collider.GetComponent<Renderer>();
             if (!r) continue;
+
             newBlocked.Add(r);
+
             if (!currentObstacles.Contains(r))
                 SwapToTransparent(r);
         }
