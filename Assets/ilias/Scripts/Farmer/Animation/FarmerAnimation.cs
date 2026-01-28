@@ -27,6 +27,6 @@ public class FarmerAnimation : MonoBehaviour
     {
         animator.SetBool("IsWorking", false);
         animator.SetBool("IsRaking", false);
-        animator.SetBool("IsDigging", false);
+        animator.SetBool("IsDigging", false); 
     }
 }
