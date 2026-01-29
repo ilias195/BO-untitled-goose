@@ -7,6 +7,9 @@ public class CameraFollow : MonoBehaviour
     [Header("Target")]
     public Transform player;
 
+    [Header("References")]
+    public PickupController pickupController; // <-- ADDED
+
     [Header("Follow Settings")]
     public float followSpeed = 5f;
     public Vector3 baseOffset = new Vector3(0, 8, -12);
@@ -27,7 +30,6 @@ public class CameraFollow : MonoBehaviour
     public float verticalScreenMargin = 0.25f;
 
     [Header("Camera Orientation")]
-    [Tooltip("Rotation around the player (0 = behind, 90 = right side, -90 = left side)")]
     public float cameraYaw = 0f;
 
     [Header("Camera Angle")]
@@ -52,12 +54,10 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
-
         currentDistance = targetDistance = baseZoomDistance;
         zoomOffsetFromPOI = 0f;
         dynamicOffset = Vector3.zero;
         movementOffset = Vector3.zero;
-
         previousPlayerPos = player.position;
 
         ApplyCameraRotation();
@@ -68,9 +68,20 @@ public class CameraFollow : MonoBehaviour
         if (!player) return;
 
         ApplyCameraRotation();
-
         HandleZoomInput();
-        HandlePOIInfluence();
+
+        // <-- MODIFIED: only use POI when not holding an item
+        if (pickupController == null || !pickupController.IsHoldingItem)
+        {
+            HandlePOIInfluence();
+        }
+        else
+        {
+            // smoothly reset POI effects while holding
+            dynamicOffset = Vector3.Lerp(dynamicOffset, Vector3.zero, Time.deltaTime * 5f);
+            zoomOffsetFromPOI = Mathf.Lerp(zoomOffsetFromPOI, 0f, Time.deltaTime * 5f);
+        }
+
         HandlePlayerMovementOffset();
         ApplyZoom();
         FollowPlayer();
@@ -108,11 +119,7 @@ public class CameraFollow : MonoBehaviour
         Quaternion yaw = Quaternion.Euler(0f, cameraYaw, 0f);
         Vector3 rotatedOffset = yaw * baseOffset.normalized * currentDistance;
 
-        Vector3 desiredPos = player.position
-                             + rotatedOffset
-                             + dynamicOffset
-                             + movementOffset;
-
+        Vector3 desiredPos = player.position + rotatedOffset + dynamicOffset + movementOffset;
         transform.position = Vector3.Lerp(transform.position, desiredPos, Time.deltaTime * followSpeed);
     }
 

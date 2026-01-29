@@ -12,12 +12,15 @@ public class PickupController : MonoBehaviour
     public Vector3 holdRotationOffset = Vector3.zero;
 
     [Header("Heavy item settings")]
-    public float heavyItemSpeed = 1f; 
+    public float heavyItemSpeed = 1f;
     public float jointSpring = 500f;
     public float jointDamper = 50f;
 
     [Header("Hold Point Selection")]
-    public int holdPointIndex = 0; 
+    public int holdPointIndex = 0;
+
+    public bool IsHoldingItem { get; private set; }   // <-- ADDED
+
     private GameObject objectInHand;
     private ConfigurableJoint joint;
     private Rigidbody playerRb;
@@ -43,7 +46,6 @@ public class PickupController : MonoBehaviour
                 Drop();
         }
 
-        
         if (joint && playerHoldPoint)
         {
             joint.connectedAnchor = playerRb.transform.InverseTransformPoint(playerHoldPoint.position);
@@ -68,7 +70,6 @@ public class PickupController : MonoBehaviour
                 continue;
             }
 
-           
             if (holdPointIndex < 0 || holdPointIndex >= itemHold.holdPoint.Length)
             {
                 Debug.LogWarning("holdPointIndex out of range! Using first hold point.");
@@ -77,7 +78,6 @@ public class PickupController : MonoBehaviour
 
             Transform itemHoldPoint = itemHold.holdPoint[holdPointIndex];
 
-           
             Vector3 posOffset = playerHoldPoint.position - itemHoldPoint.position;
             item.transform.position += posOffset;
 
@@ -85,7 +85,6 @@ public class PickupController : MonoBehaviour
             Quaternion rot = playerHoldPoint.rotation * rotationOffset * Quaternion.Inverse(itemHoldPoint.rotation);
             item.transform.rotation = rot * item.transform.rotation;
 
-           
             joint = item.AddComponent<ConfigurableJoint>();
             joint.connectedBody = playerRb;
 
@@ -93,7 +92,6 @@ public class PickupController : MonoBehaviour
             joint.anchor = item.transform.InverseTransformPoint(itemHoldPoint.position);
             joint.connectedAnchor = playerRb.transform.InverseTransformPoint(playerHoldPoint.position);
 
-            // Linear motion
             joint.xMotion = ConfigurableJointMotion.Limited;
             joint.yMotion = ConfigurableJointMotion.Limited;
             joint.zMotion = ConfigurableJointMotion.Limited;
@@ -110,14 +108,13 @@ public class PickupController : MonoBehaviour
             joint.yDrive = drive;
             joint.zDrive = drive;
 
-            
             joint.angularXMotion = ConfigurableJointMotion.Free;
             joint.angularYMotion = ConfigurableJointMotion.Free;
             joint.angularZMotion = ConfigurableJointMotion.Free;
 
             objectInHand = item;
+            IsHoldingItem = true; // <-- ADDED
 
-         
             holdingHeavyItem = itemHold.isHeavy;
             if (holdingHeavyItem)
                 playerMovement.StartHoldingHeavyItem(heavyItemSpeed, true);
@@ -135,5 +132,6 @@ public class PickupController : MonoBehaviour
 
         objectInHand = null;
         holdingHeavyItem = false;
+        IsHoldingItem = false; // <-- ADDED
     }
 }

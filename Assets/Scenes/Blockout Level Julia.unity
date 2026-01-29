@@ -6775,6 +6775,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1e59e32aaa0a8df4e800a7ec516a44dc, type: 3}
   m_PrefabInstance: {fileID: 714214557}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &724506043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 362398864363998793, guid: ca6223393cc77a142acc4b4c7d52e32e, type: 3}
+  m_PrefabInstance: {fileID: 1504436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99eecdd101370bf4d8612bbab19a3875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &724884425
 GameObject:
   m_ObjectHideFlags: 0
@@ -7029,6 +7040,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1504437}
+    - target: {fileID: 8168471614922032047, guid: 150bead2df0fbba43a36f02ff6e74f45, type: 3}
+      propertyPath: pickupController
+      value: 
+      objectReference: {fileID: 724506043}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
